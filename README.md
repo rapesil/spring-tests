@@ -2,14 +2,16 @@
 
 ## Prerrequisitos
 
-* Java 11
+* Java 17
 * Docker
-* Python 3.6+
+
+(Apenas se quiser rodar localstack local como um projeto separado)
+* Python 3.6+ 
 * PIP (python package manager)
 * Conta AWS (pode ser a conta free)* 
 
 > * Ter a conta da AWS é opcional. Você só precisará dela se quiser testar uma integração real.
->Caso não seja o seu caso, pode pular para [segunda parte desse poste](#segundaParte)
+>Caso não seja o seu caso, pode pular para [segunda parte](#segundaParte)
 
 ## Preparando o ambiente para rodar com a conta real
 
@@ -25,13 +27,17 @@ Isso fará com que a aplicação identifique suas credenciais para conectar-se c
 
 ### Preparando a aplicação
 
-Para subir a aplicação na sua máquina local, primeiro é necessário subir o banco. Navegue no projeto até a pasta `java-api/book` e digite:
+Para subir a aplicação na sua máquina local, primeiro é necessário subir o banco.:
 
-````docker-compose up````
+```
+docker-compose up
+```
 
 Assim que o banco subir na porta `3306`, basta rodar:
 
-```/gradlew bootRun```
+```
+/gradlew bootRun
+```
 
 A aplicação subirá na porta `8080`. Pronto, já podemos começar a fazer testes. Nesse primeiro momento vamos fazer um teste manual.
 Vou utilizar o Postman por ser uma ferramenta bastante conhecida, mas fique a vontade de utilizar outra ferramenta de sua preferência.
@@ -52,8 +58,7 @@ Após executar a requisição, você deve receber um status `201` e um corpo de 
 }
 ```
 
-Repare no último campo da resposta `imagePath`. Esse campo é preenchido automaticamente pela API com o caminho
-onde a imagem foi salva. Isso quer dizer que nossa imagem foi salva no S3 com sucesso. Se quiser, você pode abrir o console da AWS
+Repare no último campo da resposta `imagePath`. Esse campo é preenchido automaticamente pela API com o caminho onde a imagem foi salva. Isso quer dizer que nossa imagem foi salva no S3 com sucesso. Se quiser, você pode abrir o console da AWS
 e verificar se o arquivo realmente foi salvo na sua conta.
 
 ## <a id="segundaParte">O problema</a>
@@ -65,7 +70,7 @@ Poderíamos agora fazer uma automação para isso e seria algo bem simples, mas 
 * Precisamos ter essa infra sempre em pé. Qualquer manutenção ou alteração no ambiente pode acabar atrapalhando o resultado dos testes;
 * Alguém desavisado, pode fazer alterações em alguma configuração (excluir um bucket, por exemplo) e isso também pode atrapalhar nossos resultados.
 
-E como podemos nos prevenir nisso e ainda ter uma confiança nos nossos testes? Usando o LocalStack.
+E como podemos nos prevenir isso e ainda ter uma confiança nos nossos testes? Usando o LocalStack.
 
 ## O que é o LocalStack?
 
@@ -122,7 +127,7 @@ utilizar um profile `local`. Isso basta para que o Spring entenda que deve utili
 arquivo principal.
 
 ```shell script
- ./gradlew book:bootRun --args='--spring.profiles.active=local' 
+ ./gradlew bootRun --args='--spring.profiles.active=local' 
 ```
 
 Se refizermos agora a mesma requisição anterior quando ainda usamos a configuração de produção, devemos ter um erro. 
