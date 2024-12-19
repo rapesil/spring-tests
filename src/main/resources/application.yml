@@ -15,11 +15,11 @@ spring:
     bootstrap-servers: localhost:9092
     topic-name: books
   aws:
-    accessKey: ${AWS_ACCESS_KEY}
-    secretKey: ${AWS_SECRET_KEY}
+    accessKey: test
+    secretKey: test
     region: "us-east-1"
     s3:
         url: https://s3.us-east-1.amazonaws.com/
-        bucket: ${BUCKET_NAME}
+        bucket: bucket
 external:
   url: "http://localhost:8081"
